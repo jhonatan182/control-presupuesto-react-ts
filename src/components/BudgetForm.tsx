@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useMemo, useState } from "react";
 import { BudgetContext } from "../context/BudgetContext";
 
 export default function BudgetForm() {
@@ -11,8 +11,14 @@ export default function BudgetForm() {
 
   const isValid = useMemo(() => isNaN(budget) || budget <= 0, [budget]);
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    dispatch({ type: "add-budget", payload: { budget } });
+  };
+
   return (
-    <form className="space-y-5">
+    <form className="space-y-5" onSubmit={handleSubmit}>
       <div className="flex flex-col space-y-5">
         <label
           htmlFor="budget"
@@ -36,9 +42,6 @@ export default function BudgetForm() {
         value="Definir Presupuesto"
         className="bg-blue-600 hover:bg-blue-700 cursor-pointer w-full p-2 text-white uppercase font-bold disabled:opacity-30 disabled:pointer-events-none"
         disabled={isValid}
-        onClick={() =>
-          dispatch({ type: "add-budget", payload: { budget: budget } })
-        }
       />
     </form>
   );

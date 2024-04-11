@@ -10,7 +10,7 @@ export default function ExpenseList() {
   return (
     <div className="mt-10">
       {isEmpty ? (
-        <p className="text-gray-500 text-2xl font-bold">NNo hya gastos</p>
+        <p className="text-gray-500 text-2xl font-bold">No hya gastos</p>
       ) : (
         <>
           <p className="text-gray-600 text-2xl font-bold my-5">

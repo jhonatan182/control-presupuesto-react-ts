@@ -15,7 +15,8 @@ export default function ExpenseForm() {
     expenseName: "",
   });
   const [error, setError] = useState("");
-  const { dispatch, state } = useBudget();
+  const [previousAmount, setPreviousAmount] = useState<number>(0);
+  const { dispatch, state, remainingBudget } = useBudget();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -43,7 +44,14 @@ export default function ExpenseForm() {
       return;
     }
 
+    //validar que no me pase del limite
+    if (expense.amount - previousAmount > remainingBudget) {
+      setError("Ese gasto se sale del presupuesto");
+      return;
+    }
+
     setError("");
+    setPreviousAmount(0);
 
     //Agregar o actualizar el gasto
     if (state.editingId) {
@@ -70,13 +78,14 @@ export default function ExpenseForm() {
       )[0];
 
       setExpense(editingExpense);
+      setPreviousAmount(editingExpense.amount);
     }
   }, [state.editingId]);
 
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       <legend className="uppercase text-center text-2xl font-black border-b-4 py-2  border-blue-500">
-        Nuevo Gasto
+        {state.editingId ? "Guardar Cambios" : "Nuevo Gasto"}
       </legend>
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
@@ -143,7 +152,7 @@ export default function ExpenseForm() {
       <input
         type="submit"
         className="bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
-        value={"Registrar Gasto"}
+        value={state.editingId ? "Guardar Cambios" : "Registrar Gasto"}
       />
     </form>
   );

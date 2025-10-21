@@ -28,13 +28,13 @@ function App() {
         {isValidBudget ? <BudgetTracker /> : <BudgetForm />}
       </div>
 
-      {isValidBudget && (
+      {isValidBudget ? (
         <main className="max-w-3xl mx-auto py-10">
           <FilterByCategory />
           <ExpenseList />
           <ExpenseModal />
         </main>
-      )}
+      ) : null}
     </>
   );
 }

@@ -62,21 +62,25 @@ export default function ExpenseDetail({ expense }: ExpenseDetailProps) {
             <img
               src={`/icono_${categoryInfo.icon}.svg`}
               alt="Imagen gasto"
-              className="w-20"
+              className="w-16 sm:w-20"
             />
           </div>
 
-          <div className="flex-1 space-y-2">
+          <div className="flex-1 space-y-2 min-w-0">
             <p className="text-sm font-bold uppercase text-slate-500">
               {categoryInfo.name}
             </p>
-            <p>{expense.expenseName}</p>
+            <p className="truncate sm:line-clamp-2">{expense.expenseName}</p>
             <p className="text-slate-600 text-sm">
               {formatDate(expense.date!.toString())}
             </p>
           </div>
 
-          <AmountDisplay amount={expense.amount} />
+<div className="flex-shrink-0">
+      <AmountDisplay amount={expense.amount} />
+        </div>
+
+    
         </div>
       </SwipeableListItem>
     </SwipeableList>
